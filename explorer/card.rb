@@ -2,7 +2,7 @@ class Card
   include Comparable
 
   def self.faces
-    ("2".."10").to_a + %w(J Q K A)
+    ("2".."10").to_a + %w(Jack Queen King Ace)
   end
 
   def self.suits
