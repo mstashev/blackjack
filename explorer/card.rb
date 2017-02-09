@@ -17,8 +17,6 @@ class Card
     @value = setValue
   end
 
-  
-
   def setValue
     if face.to_i != 0
       face.to_i
@@ -27,6 +25,10 @@ class Card
     else
       10
     end
+  end
+
+  def to_s
+    "a #{face} of #{suit}"
   end
 
   def <=>(other)

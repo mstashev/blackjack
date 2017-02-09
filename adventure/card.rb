@@ -27,6 +27,10 @@ class Card
     end
   end
 
+  def to_s
+    "a #{face} of #{suit}"
+  end
+
   def <=>(other)
     value <=> other.value
   end

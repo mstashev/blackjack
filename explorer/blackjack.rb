@@ -38,7 +38,7 @@ class Blackjack
     # puts "House hand: #{househand.inspect}"
     house_card = househand.first
 
-    puts "House shows: #{house_card.face} of #{house_card.suit}"
+    puts "House shows: #{house_card.to_s}"
     until player_input == "Stay" || is_over_21?(p1hand)
       playerturn(p1hand)
     end
@@ -69,7 +69,7 @@ class Blackjack
       puts "Bust, Player wins"
       exit
     elsif is_21?(househand) == true
-      puts "Blackjack"
+      puts "House gets Blackjack"
       exit
     end
     if house_total < 16
@@ -79,7 +79,7 @@ class Blackjack
     else
       puts "House has: "
       househand.each do |card|
-        puts "#{card.face} of #{card.suit}"
+        puts "#{card.to_s}"
       end
       puts "House hand total is #{house_total}."
       stay(house_total, "House")
@@ -93,7 +93,7 @@ class Blackjack
     end
     puts "You have: "
     p1hand.each do |card|
-      puts "#{card.face} of #{card.suit}"
+      puts "#{card.to_s}"
     end
     puts "Your hand total is #{player_total}."
     if is_over_21?(p1hand) == true
