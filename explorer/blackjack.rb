@@ -36,7 +36,9 @@ class Blackjack
     deal(players)
     # puts "Player hand: #{p1hand.inspect}"
     # puts "House hand: #{househand.inspect}"
+    house_card = househand.first
 
+    puts "House shows: #{house_card.face} of #{house_card.suit}"
     until player_input == "Stay" || is_over_21?(p1hand)
       playerturn(p1hand)
     end

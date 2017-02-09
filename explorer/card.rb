@@ -17,6 +17,8 @@ class Card
     @value = setValue
   end
 
+  
+
   def setValue
     if face.to_i != 0
       face.to_i

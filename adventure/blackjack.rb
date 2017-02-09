@@ -36,25 +36,31 @@ class Blackjack
     deal(players)
     # puts "Player hand: #{p1hand.inspect}"
     # puts "House hand: #{househand.inspect}"
+    house_card = househand.first
 
-    until player_input == "Stay" || is_over_21?(p1hand)
-      playerturn(p1hand)
-    end
-
-    if house_total < player_total
-      if player_total > 21
-        puts "House wins!"
-      else
-        puts "You win!"
-      end
-    elsif player_total < house_total
-      if  house_total > 21
-        puts "Player wins!"
-      else
-        puts "House wins!"
-      end
+    puts "House shows: #{house_card.face} of #{house_card.suit}"
+    if is_21?(househand) == true
+      puts "House has Blackjack. House wins!"
     else
-      puts "You tied. House rules say, You win!"
+      until player_input == "Stay" || is_over_21?(p1hand)
+        playerturn(p1hand)
+      end
+
+      if house_total < player_total
+        if player_total > 21
+          puts "House wins!"
+        else
+          puts "You win!"
+        end
+      elsif player_total < house_total
+        if  house_total > 21
+          puts "Player wins!"
+        else
+          puts "House wins!"
+        end
+      else
+        puts "You tied. House rules say, You win!"
+      end
     end
   end
 
