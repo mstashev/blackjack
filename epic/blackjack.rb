@@ -1,6 +1,5 @@
 require 'tty'
-require_relative 'card'
-require_relative 'deck'
+require_relative 'shoe'
 require 'pry'
 
 class Blackjack
@@ -8,7 +7,7 @@ class Blackjack
   attr_accessor :p1hand,
                 :househand,
                 :prompt,
-                :deck,
+                :shoe,
                 :players,
                 :player_input,
                 :house_total,
@@ -16,19 +15,21 @@ class Blackjack
 
   def initialize
     @prompt = TTY::Prompt.new
-    @deck = Deck.new
+    @shoe = Shoe.new
     @p1hand = []
     @househand = []
     @players = [@p1hand, @househand]
     @player_input = nil
     @house_total = 0
     @player_total = 0
+
   end
+
 
   def deal(players)
     2.times do
       players.each do |player|
-        player << deck.draw
+        player << shoe.draw
       end
     end
   end
@@ -140,7 +141,7 @@ class Blackjack
   end
 
   def hit(hand)
-    hand << deck.draw
+    hand << shoe.draw
   end
 
   def stay(total, who)
