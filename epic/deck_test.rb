@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+
 require_relative 'deck'
 
 class DeckTest < MiniTest::Test
@@ -19,7 +20,7 @@ class DeckTest < MiniTest::Test
     deck = Deck.new
     faces = (2..10).to_a + %w(J Q K A)
     faces.each do |face|
-      assert deck.cards.count{ |card| card.face == face} == 4
+      assert deck.cards.count{|card| card.face == face} == 4
     end
   end
 
@@ -27,7 +28,7 @@ class DeckTest < MiniTest::Test
     deck = Deck.new
     suits = %w(Clubs Spades Diamonds Hearts)
     suits.each do |suit|
-      assert deck.cards.count{ |card| card.suit.include?(suit)} == 13
+      assert deck.cards.count { |card| card.suit.include?(suit)} == 13
     end
   end
 end

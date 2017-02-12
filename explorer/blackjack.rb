@@ -107,7 +107,6 @@ class Blackjack
     end
   end
 
-
   def pick_an_option(response = nil, player_total)
     response = prompt.select("Would you like.", %w(Hit Stay)).downcase
 
@@ -160,8 +159,5 @@ class Blackjack
       exit
     end
   end
-
-
-
 end
 Blackjack.new.play
