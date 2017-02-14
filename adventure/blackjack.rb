@@ -22,6 +22,15 @@ class Blackjack
     @player_input = nil
     @house_total = 0
     @player_total = 0
+    @games_counter = 0
+  end
+
+  def self.games_counter=(games_counter=0)
+      @games_counter = games_counter
+  end
+
+  def self.games_counter
+    @games_counter ||= 0
   end
 
   def deal(players)
@@ -38,8 +47,8 @@ class Blackjack
     # puts "House hand: #{househand.inspect}"
     house_card = househand.first
 
-    puts "House shows: #{house_card.to_s}"
-    if is_21?(househand) == true
+    puts "House shows: #{house_card}"
+    if is_21?(househand)
       puts 'House has Blackjack. House wins!'
     else
       until player_input == 'Stay' || over_21?(p1hand) || (p1hand.count == 6 && hand_total(p1hand) < 21)
@@ -60,25 +69,26 @@ class Blackjack
         end
       end
     end
+    ask_for_rematch
   end
 
   def houseturn(hand)
-    house_total = hand_total(househand)
-    if over_21?(househand) == true
+    house_total = hand_total(hand)
+    if over_21?(hand)
       puts 'Bust, Player wins'
-      exit
-    elsif is_21?(househand) == true
+      ask_for_rematch
+    elsif is_21?(hand)
       puts 'Blackjack. House wins.'
-      exit
+      ask_for_rematch
     end
     if house_total < 16
-      hit(househand)
+      hit(hand)
       # puts househand.inspect
-      houseturn(househand)
+      houseturn(hand)
     else
       puts 'House has: '
-      househand.each do |card|
-        puts "#{card.to_s}"
+      hand.each do |card|
+        puts card.to_s
       end
       puts "House hand total is #{house_total}."
       stay(house_total, 'House')
@@ -86,25 +96,25 @@ class Blackjack
   end
 
   def playerturn(hand)
-    player_total = hand_total(p1hand)
+    player_total = hand_total(hand)
     puts 'You have: '
     p1hand.each do |card|
-      puts "#{card.to_s}"
+      puts card.to_s
     end
     puts "Your hand total is #{player_total}."
     puts "Your card count is #{p1hand.count}."
-    if over_21?(p1hand) == true
+    if over_21?(hand)
       puts 'Bust, dealer wins'
-      exit
-    elsif is_21?(p1hand) == true
+      ask_for_rematch
+    elsif is_21?(hand)
       puts 'Blackjack'
-      exit
+      ask_for_rematch
     else
       pick_an_option(player_total)
     end
   end
 
-  def pick_an_option(response = nil, player_total)
+  def pick_an_option(player_total, response = nil)
     response = prompt.select('Would you like.', %w(Hit Stay)).downcase
 
     case response
@@ -143,13 +153,13 @@ class Blackjack
 
   def stay(total, who)
     @player_input = 'Stay'
-    if    who == 'Player'
+    if who == 'Player'
       @player_total = total
     elsif who == 'House'
       @house_total  = total
     else
       puts 'Error'
-      exit
+      ask_for_rematch
     end
   end
 
@@ -162,5 +172,18 @@ class Blackjack
     hand_total
     # binding.pry
   end
+
+  def ask_for_rematch
+    self.class.games_counter += 1
+    puts "You've played #{self.class.games_counter} games."
+    response = prompt.yes?('Wanna go again?')
+    if response
+      Blackjack.new.play
+    else
+      puts 'Goodbye'
+      exit
+    end
+  end
 end
+
 Blackjack.new.play
