@@ -4,7 +4,6 @@ require_relative 'deck'
 require 'pry'
 
 class Blackjack
-
   attr_accessor :p1hand,
                 :househand,
                 :prompt,
@@ -41,23 +40,23 @@ class Blackjack
 
     puts "House shows: #{house_card.to_s}"
     if is_21?(househand) == true
-      puts "House has Blackjack. House wins!"
+      puts 'House has Blackjack. House wins!'
     else
-      until player_input == "Stay" || is_over_21?(p1hand) || (p1hand.count == 6 && hand_total(p1hand) < 21)
+      until player_input == 'Stay' || over_21?(p1hand) || (p1hand.count == 6 && hand_total(p1hand) < 21)
         playerturn(p1hand)
       end
 
       if house_total < player_total
-          puts "Player wins!"
+        puts 'Player wins!'
       elsif player_total < house_total
-          puts "House wins!"
+        puts 'House wins!'
       elsif player_total == house_total
         if p1hand.count < househand.count
-          puts "House wins!"
+          puts 'House wins!'
         elsif p1hand.count == househand.count
-          puts "You win!"
+          puts 'You win!'
         else
-          puts "You win!"
+          puts 'You win!'
         end
       end
     end
@@ -65,11 +64,11 @@ class Blackjack
 
   def houseturn(hand)
     house_total = hand_total(househand)
-    if is_over_21?(househand) == true
-      puts "Bust, Player wins"
+    if over_21?(househand) == true
+      puts 'Bust, Player wins'
       exit
     elsif is_21?(househand) == true
-      puts "Blackjack. House wins."
+      puts 'Blackjack. House wins.'
       exit
     end
     if house_total < 16
@@ -77,50 +76,49 @@ class Blackjack
       # puts househand.inspect
       houseturn(househand)
     else
-      puts "House has: "
+      puts 'House has: '
       househand.each do |card|
         puts "#{card.to_s}"
       end
       puts "House hand total is #{house_total}."
-      stay(house_total, "House")
+      stay(house_total, 'House')
     end
   end
 
   def playerturn(hand)
     player_total = hand_total(p1hand)
-    puts "You have: "
+    puts 'You have: '
     p1hand.each do |card|
       puts "#{card.to_s}"
     end
     puts "Your hand total is #{player_total}."
     puts "Your card count is #{p1hand.count}."
-    if is_over_21?(p1hand) == true
-      puts "Bust, dealer wins"
+    if over_21?(p1hand) == true
+      puts 'Bust, dealer wins'
       exit
     elsif is_21?(p1hand) == true
-      puts "Blackjack"
+      puts 'Blackjack'
       exit
     else
       pick_an_option(player_total)
     end
   end
 
-
   def pick_an_option(response = nil, player_total)
-    response = prompt.select("Would you like.", %w(Hit Stay)).downcase
+    response = prompt.select('Would you like.', %w(Hit Stay)).downcase
 
     case response
-    when "hit"
+    when 'hit'
       hit(p1hand)
       playerturn(p1hand)
-    when "stay"
+    when 'stay'
       # binding.pry
-      stay(player_total, "Player")
+      stay(player_total, 'Player')
       houseturn(househand)
     end
   end
 
-  def is_over_21?(hand)
+  def over_21?(hand)
     handtotal = hand_total(hand)
     # binding.pry
     if handtotal <= 21
@@ -144,13 +142,13 @@ class Blackjack
   end
 
   def stay(total, who)
-    @player_input = "Stay"
-    if    who == "Player"
+    @player_input = 'Stay'
+    if    who == 'Player'
       @player_total = total
-    elsif who == "House"
+    elsif who == 'House'
       @house_total  = total
     else
-      puts "Error"
+      puts 'Error'
       exit
     end
   end
@@ -164,8 +162,5 @@ class Blackjack
     hand_total
     # binding.pry
   end
-
-
-
 end
 Blackjack.new.play
